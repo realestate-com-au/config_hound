@@ -11,10 +11,16 @@ class ConfigurationLoader
     end
 
     def to_s
-      @uri.to_s
+      uri.to_s
+    end
+
+    def resolve(path)
+      self.class.new(uri + path)
     end
 
     private
+
+    attr_reader :uri
 
     def uri_for(path)
       case path
