@@ -7,35 +7,50 @@ class ConfigurationLoader
   end
 
   def load(path)
-    data = open(path).read
+    raw = open(path).read
     format = File.extname(path)[1..-1]
-    parse(data, format)
+    data = parse(raw, format)
+    includes = Array(data.delete("_include"))
+    includes.each do |included_path|
+      included_data = load(included_path)
+      data = deep_merge(load(included_path), data)
+    end
+    data
   end
 
   private
 
-  def parse(data, format)
+  def parse(raw, format)
     parse_method = "parse_#{format}"
     raise "unknown format: #{format}" unless respond_to?(parse_method, true)
-    send(parse_method, data)
+    send(parse_method, raw)
   end
 
-  def parse_yaml(data)
+  def parse_yaml(raw)
     require "yaml"
-    YAML.load(data)
+    YAML.load(raw)
   end
 
   alias :parse_yml :parse_yaml
 
-  def parse_json(data)
+  def parse_json(raw)
     require "multi_json"
-    MultiJson.load(data)
+    MultiJson.load(raw)
   end
 
-  def parse_toml(data)
+  def parse_toml(raw)
     require "toml"
-    TOML.load(data)
+    TOML.load(raw)
+  end
+
+  def deep_merge(a, b)
+    if a.is_a?(Hash) && b.is_a?(Hash)
+      a.merge(b) { |key, av, bv| deep_merge(av, bv) }
+    else
+      b
+    end
   end
 
 end
+
 
