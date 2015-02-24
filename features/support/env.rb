@@ -5,11 +5,11 @@ class CustomConfigurationLoader < ConfigurationLoader
 
   attr_accessor :inputs
 
-  def open(path)
+  def read(path)
     if inputs.has_key?(path)
-      StringIO.new(inputs[path])
+      inputs[path]
     else
-      raise Errno::ENOENT, "no such file: #{path}"
+      raise ConfigurationLoader::LoadError, "can't load: #{path}"
     end
   end
 
