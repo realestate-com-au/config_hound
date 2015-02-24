@@ -50,6 +50,7 @@ Scenario: Multiple levels of inclusion
     }
     """
 
+@wip
 Scenario: Relative inclusion
 
   Given "config.yml" contains
