@@ -33,3 +33,19 @@ Scenario: JSON config
       "bar" => 2
     }
     """
+
+Scenario: TOML config
+
+  Given "config.toml" contains
+    """
+    foo = 1
+    bar = 2
+    """
+
+  Then loading "config.toml" should return
+    """
+    {
+      "foo" => 1,
+      "bar" => 2
+    }
+    """

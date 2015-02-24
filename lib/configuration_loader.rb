@@ -32,5 +32,10 @@ class ConfigurationLoader
     MultiJson.load(data)
   end
 
+  def parse_toml(data)
+    require "toml"
+    TOML.load(data)
+  end
+
 end
 
