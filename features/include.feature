@@ -49,3 +49,31 @@ Scenario: Multiple levels of inclusion
       "from_b" => "B",
     }
     """
+
+Scenario: Relative inclusion
+
+  Given "config.yml" contains
+    """
+    from_config: C
+    _include: subdir/a.yml
+    """
+
+  And "subdir/a.yml" contains
+    """
+    from_a: A
+    _include: b.yml
+    """
+
+  And "subdir/b.yml" contains
+    """
+    from_b: B
+    """
+
+  Then loading "config.yml" should return
+    """
+    {
+      "from_config" => "C",
+      "from_a" => "A",
+      "from_b" => "B",
+    }
+    """
