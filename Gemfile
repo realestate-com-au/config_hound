@@ -5,5 +5,5 @@ gemspec
 
 gem "cucumber"
 gem "multi_json", :require => false
-gem "rspec-expectations"
+gem "rspec"
 gem "toml", :require => false
