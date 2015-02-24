@@ -1,31 +1,19 @@
 # ConfigurationLoader
 
-TODO: Write a gem description
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'configuration_loader'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install configuration_loader
+ConfigurationLoader makes it easy to load configuration data that is
+spread between multiple files.
 
 ## Usage
 
-TODO: Write usage instructions here
+    # load YAML
+    config = ConfigurationLoader.load("config.yaml")
+
+    # load JSON
+    config = ConfigurationLoader.load("config.json")
+
+    # load TOML
+    config = ConfigurationLoader.load("config.toml")
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/configuration_loader/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+It's on GitHub; you know the drill.
