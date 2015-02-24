@@ -10,8 +10,10 @@ Scenario: YAML config
 
   Then loading "config.yml" should return
     """
-    foo: 1
-    bar: 2
+    {
+      "foo" => 1,
+      "bar" => 2
+    }
     """
 
 Scenario: JSON config
@@ -26,6 +28,8 @@ Scenario: JSON config
 
   Then loading "config.json" should return
     """
-    foo: 1
-    bar: 2
+    {
+      "foo" => 1,
+      "bar" => 2
+    }
     """
