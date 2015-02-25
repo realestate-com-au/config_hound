@@ -1,6 +1,9 @@
+require "open-uri"
 require "uri"
 
 class ConfigurationLoader
+
+  LoadError = Class.new(StandardError)
 
   # Represents a source of configuration data.
   #
@@ -16,6 +19,18 @@ class ConfigurationLoader
 
     def resolve(path)
       self.class.new(uri + path)
+    end
+
+    def read
+      open(uri.scheme == "file" ? uri.path : uri.to_s) do |io|
+        io.read
+      end
+    rescue Errno::ENOENT
+      raise LoadError, "can't load: #{uri}"
+    end
+
+    def format
+      File.extname(uri.to_s)[1..-1]
     end
 
     private

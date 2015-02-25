@@ -1,3 +1,4 @@
+require "configuration_loader/resource"
 require "configuration_loader/version"
 
 class ConfigurationLoader
@@ -7,25 +8,14 @@ class ConfigurationLoader
   end
 
   def load(path)
-    raw = read(path)
-    format = File.extname(path)[1..-1]
-    data = parse(raw, format)
+    resource = Resource.new(path.to_s)
+    data = parse(resource.read, resource.format)
     includes = Array(data.delete("_include"))
-    includes.each do |included_path|
-      included_data = load(included_path)
-      data = deep_merge(load(included_path), data)
+    includes.each do |i|
+      included_data = load(resource.resolve(i))
+      data = deep_merge(included_data, data)
     end
     data
-  end
-
-  protected
-
-  def read(path)
-    open(path) do |io|
-      io.read
-    end
-  rescue Errno::ENOENT
-    raise ConfigurationLoader::LoadError, "can't load: #{path}"
   end
 
   private
@@ -60,8 +50,6 @@ class ConfigurationLoader
       b
     end
   end
-
-  LoadError = Class.new(StandardError)
 
 end
 

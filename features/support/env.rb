@@ -1,22 +1,15 @@
 require "configuration_loader"
+require "cucumber/rspec/doubles"
 require "stringio"
-
-class CustomConfigurationLoader < ConfigurationLoader
-
-  attr_accessor :inputs
-
-  def read(path)
-    if inputs.has_key?(path)
-      inputs[path]
-    else
-      raise ConfigurationLoader::LoadError, "can't load: #{path}"
-    end
-  end
-
-end
 
 Before do
   @inputs = {}
-  @loader = CustomConfigurationLoader.new
-  @loader.inputs = @inputs
+  @loader = ConfigurationLoader.new
+  allow_any_instance_of(ConfigurationLoader::Resource).to receive(:open) do |_, path, &block|
+    if @inputs.has_key?(path)
+      block.call(StringIO.new(@inputs[path].dup))
+    else
+      raise Errno::ENOENT, "can't load: #{path}"
+    end
+  end
 end

@@ -1,6 +1,9 @@
 require "yaml"
 
 Given /^"([^\"]*)" contains$/ do |path, content|
+  unless path =~ %r(^\w+:/)
+    path = File.expand_path(path)
+  end
   @inputs[path] = content
 end
 
