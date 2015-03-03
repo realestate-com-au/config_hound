@@ -14,12 +14,33 @@ describe ConfigurationLoader do
       _include: included.yml
     }
 
-    given_resource "included.yml", <<-YAML
+    given_resource "included.yml", %{
       foo: 1
       bar: 2
-    YAML
+    }
 
     it "merges in the included file" do
+      expect(config).to eq(
+        "foo" => 42,
+        "bar" => 2
+      )
+    end
+
+  end
+
+  context "when the included file has a different format" do
+
+    given_resource "config.yml", %{
+      foo: 42
+      _include: included.toml
+    }
+
+    given_resource "included.toml", %{
+      foo = 1
+      bar = 2
+    }
+
+    it "doesn't matter" do
       expect(config).to eq(
         "foo" => 42,
         "bar" => 2
