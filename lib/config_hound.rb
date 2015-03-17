@@ -1,8 +1,8 @@
-require "configuration_loader/parser"
-require "configuration_loader/resource"
-require "configuration_loader/version"
+require "config_hound/parser"
+require "config_hound/resource"
+require "config_hound/version"
 
-class ConfigurationLoader
+class ConfigHound
 
   def self.load(path)
     new.load(path)

@@ -1,12 +1,12 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'configuration_loader/version'
+require 'config_hound/version'
 
 Gem::Specification.new do |spec|
 
-  spec.name          = "configuration_loader"
-  spec.version       = ConfigurationLoader::VERSION
+  spec.name          = "config_hound"
+  spec.version       = ConfigHound::VERSION
 
   spec.summary       = %q{TODO: Write a short summary. Required.}
   spec.description   = %q{TODO: Write a longer description. Optional.}

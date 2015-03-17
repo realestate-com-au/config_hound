@@ -1,9 +1,9 @@
 require "spec_helper"
 
-require "configuration_loader/resource"
+require "config_hound/resource"
 require "uri"
 
-describe ConfigurationLoader::Resource do
+describe ConfigHound::Resource do
 
   let(:resource) { described_class.new(path) }
 
@@ -31,7 +31,7 @@ describe ConfigurationLoader::Resource do
       context "with a relative path" do
         it "resolves relatively" do
           other_resource = resource.resolve("other_file")
-          expect(other_resource).to be_a(ConfigurationLoader::Resource)
+          expect(other_resource).to be_a(ConfigHound::Resource)
           expect(other_resource.to_s).to eq("file:/path/to/other_file")
         end
       end

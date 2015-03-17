@@ -1,4 +1,4 @@
-class ConfigurationLoader
+class ConfigHound
 
   class Parser
 

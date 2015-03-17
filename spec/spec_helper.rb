@@ -10,7 +10,7 @@ module GivenResource
     end
     content = undent(content)
     before do
-      allow_any_instance_of(ConfigurationLoader::Resource).to receive(:open).with(path) do |_, _, &block|
+      allow_any_instance_of(ConfigHound::Resource).to receive(:open).with(path) do |_, _, &block|
         block.call(StringIO.new(content.dup))
       end
     end
@@ -35,7 +35,7 @@ RSpec.configure do |config|
   config.extend(GivenResource)
 
   config.before do
-    allow_any_instance_of(ConfigurationLoader::Resource).to receive(:open) do |_, path, &block|
+    allow_any_instance_of(ConfigHound::Resource).to receive(:open) do |_, path, &block|
       raise Errno::ENOENT, "can't load: #{path}"
     end
   end

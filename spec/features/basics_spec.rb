@@ -1,11 +1,11 @@
 require "spec_helper"
 
-require "configuration_loader"
+require "config_hound"
 
-describe ConfigurationLoader do
+describe ConfigHound do
 
   def load(path)
-    ConfigurationLoader.load(path)
+    ConfigHound.load(path)
   end
 
   given_resource "config.yml", %{

@@ -1,8 +1,8 @@
 
-describe ConfigurationLoader do
+describe ConfigHound do
 
   def load(path)
-    ConfigurationLoader.load(path)
+    ConfigHound.load(path)
   end
 
   let(:config) { load("config.yml") }
