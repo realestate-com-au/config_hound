@@ -101,6 +101,39 @@ describe ConfigHound do
 
   end
 
+  context "with deep structures" do
+
+    given_resource "config.yml", %{
+      _include: defaults.yml
+      nested:
+        stuff:
+          name: Stuff
+          strategy: none
+    }
+
+    given_resource "defaults.yml", %{
+      nested:
+        stuff:
+          size: large
+          strategy:
+            first: think
+            then: do
+    }
+
+    it "merges deeply" do
+      expect(config).to eq(
+        "nested" => {
+          "stuff" => {
+            "name" => "Stuff",
+            "size" => "large",
+            "strategy" => "none"
+          }
+        }
+      )
+    end
+
+  end
+
 end
 
 
