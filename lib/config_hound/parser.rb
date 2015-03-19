@@ -1,4 +1,4 @@
-class ConfigHound
+module ConfigHound
 
   class Parser
 

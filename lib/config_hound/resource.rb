@@ -1,7 +1,7 @@
 require "open-uri"
 require "uri"
 
-class ConfigHound
+module ConfigHound
 
   LoadError = Class.new(StandardError)
 

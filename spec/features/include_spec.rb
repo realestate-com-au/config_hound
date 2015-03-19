@@ -101,6 +101,30 @@ describe ConfigHound do
 
   end
 
+  context "with a nested include" do
+
+    given_resource "config.yml", %{
+      fnord:
+        _include: fnord_stuff.yml
+    }
+
+    given_resource "fnord_stuff.yml", %{
+      foo: 1
+      bar: 2
+    }
+
+    it "resolves the relative references" do
+      pending
+      expect(config).to eq(
+        "fnord" => {
+          "foo" => 1,
+          "bar" => 2
+        }
+      )
+    end
+
+  end
+
 end
 
 
