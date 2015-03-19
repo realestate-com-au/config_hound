@@ -3,8 +3,8 @@ require "config_hound/version"
 
 module ConfigHound
 
-  def self.load(path)
-    Loader.load(path)
+  def self.load(*args)
+    Loader.load(*args)
   end
 
 end

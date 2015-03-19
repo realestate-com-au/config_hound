@@ -1,8 +1,10 @@
 
 describe ConfigHound do
 
+  let(:options) { {} }
+
   def load(path)
-    ConfigHound.load(path)
+    ConfigHound.load(path, options)
   end
 
   let(:config) { load("config.yml") }
@@ -69,6 +71,34 @@ describe ConfigHound do
       expect(config).to eq(
         "from_config" => "C",
         "from_a" => "A",
+        "from_b" => "B"
+      )
+    end
+
+  end
+
+  context "with an alernate :include_key" do
+
+    before do
+      options[:include_key] = "slurp"
+    end
+
+    given_resource "config.yml", %{
+      _include: a.yml
+      slurp: b.yml
+    }
+
+    given_resource "a.yml", %{
+      from_a: A
+    }
+
+    given_resource "b.yml", %{
+      from_b: B
+    }
+
+    it "uses the specified include-key" do
+      expect(config).to eq(
+        "_include" => "a.yml",
         "from_b" => "B"
       )
     end
