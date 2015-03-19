@@ -8,13 +8,12 @@ Gem::Specification.new do |spec|
   spec.name          = "config_hound"
   spec.version       = ConfigHound::VERSION
 
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Sniffs out config, wherever it may be.}
   spec.license       = "MIT"
 
   spec.authors       = ["Mike Williams"]
   spec.email         = ["mdub@dogbiscuit.org"]
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/mdub/config_hound"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.test_files    = spec.files.grep(%r{^spec/})
