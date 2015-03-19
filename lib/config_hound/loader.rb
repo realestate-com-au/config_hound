@@ -17,21 +17,23 @@ module ConfigHound
 
     def load
       data = Parser.parse(resource.read, resource.format)
-      includes = Array(data.delete("_include"))
-      includes.each do |i|
-        included_data = Loader.load(resource.resolve(i))
-        data = deep_merge(included_data, data)
+      Array(data.delete("_include")).each do |i|
+        defaults = Loader.load(resource.resolve(i))
+        include_into!(data, defaults)
       end
       data
     end
 
     private
 
-    def deep_merge(a, b)
-      if a.is_a?(Hash) && b.is_a?(Hash)
-        a.merge(b) { |key, av, bv| deep_merge(av, bv) }
-      else
-        b
+    def include_into!(data, defaults)
+      return unless data.is_a?(Hash) && defaults.is_a?(Hash)
+      defaults.each do |key, value|
+        if data.has_key?(key)
+          include_into!(data[key], value)
+        else
+          data[key] = value
+        end
       end
     end
 
