@@ -173,18 +173,22 @@ describe ConfigHound do
     }
 
     given_resource "fileA.yml", %{
-      direction: north
+      source: A
       fromA: true
     }
 
     given_resource "fileB.yml", %{
-      direction: south
+      source: B
       fromB: true
     }
 
     it "loads both files" do
       expect(config).to have_key("fromA")
       expect(config).to have_key("fromB")
+    end
+
+    it "favours earliest included file" do
+      expect(config["source"]).to eq("A")
     end
 
   end
