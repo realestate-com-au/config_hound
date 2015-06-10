@@ -1,4 +1,3 @@
-require "config_hound/parser"
 require "config_hound/resource"
 
 module ConfigHound
@@ -23,7 +22,7 @@ module ConfigHound
 
     def load(path)
       resource = Resource.new(path.to_s)
-      include_into!(data, Parser.parse(resource.read, resource.format))
+      include_into!(data, resource.load)
       includes = Array(data.delete(include_key))
       includes.each do |i|
         load(resource.resolve(i))

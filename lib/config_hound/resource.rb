@@ -1,3 +1,4 @@
+require "config_hound/parser"
 require "open-uri"
 require "uri"
 
@@ -31,6 +32,10 @@ module ConfigHound
 
     def format
       File.extname(uri.to_s)[1..-1]
+    end
+
+    def load
+      Parser.parse(read, format)
     end
 
     private
