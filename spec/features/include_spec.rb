@@ -164,6 +164,30 @@ describe ConfigHound do
 
   end
 
+  context "with multiple includes" do
+
+    given_resource "config.yml", %{
+      _include:
+      - fileA.yml
+      - fileB.yml
+    }
+
+    given_resource "fileA.yml", %{
+      direction: north
+      fromA: true
+    }
+
+    given_resource "fileB.yml", %{
+      direction: south
+      fromB: true
+    }
+
+    it "loads both files" do
+      expect(config).to have_key("fromA")
+      expect(config).to have_key("fromB")
+    end
+
+  end
 end
 
 
