@@ -7,32 +7,37 @@ module ConfigHound
 
     DEFAULT_INCLUDE_KEY = "_include"
 
-    def self.load(path, options = {})
-      new(path, options).load
-    end
-
-    def initialize(path, options)
-      @resource = Resource.new(path.to_s)
-      @include_key = options.fetch(:include_key, DEFAULT_INCLUDE_KEY)
-    end
-
-    def load
-      data = Parser.parse(resource.read, resource.format)
-      Array(data.delete(include_key)).each do |i|
-        defaults = Loader.load(resource.resolve(i))
-        include_into!(data, defaults)
+    def self.load(paths, options = {})
+      data = {}
+      loader = new(data, options)
+      Array(paths).each do |path|
+        loader.load(path)
       end
       data
     end
 
+    def initialize(data, options)
+      @data = data
+      @include_key = options.fetch(:include_key, DEFAULT_INCLUDE_KEY)
+    end
+
+    def load(path)
+      resource = Resource.new(path.to_s)
+      include_into!(data, Parser.parse(resource.read, resource.format))
+      includes = Array(data.delete(include_key))
+      includes.each do |i|
+        load(resource.resolve(i))
+      end
+    end
+
     private
 
-    attr_reader :resource
+    attr_reader :data
     attr_reader :include_key
 
-    def include_into!(data, defaults)
-      return unless data.is_a?(Hash) && defaults.is_a?(Hash)
-      defaults.each do |key, value|
+    def include_into!(data, more_data)
+      return unless data.is_a?(Hash) && more_data.is_a?(Hash)
+      more_data.each do |key, value|
         if data.has_key?(key)
           include_into!(data[key], value)
         else
