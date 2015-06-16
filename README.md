@@ -41,7 +41,7 @@ Multiple levels of inclusion are possible.
 If the placeholder "`_include`" doesn't suit, you can specify
 another, e.g.
 
-    config = ConfigHound.load("config.yml", :include_key => "defaults")
+    config = ConfigHound.with(include_key: "defaults").load("config.yml")
 
 ## Contributing
 
