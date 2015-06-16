@@ -11,22 +11,23 @@ module ConfigHound
     end
 
     def load(*paths)
-      paths.reverse.map(&method(:load_path)).reduce({}, &ConfigHound.method(:deep_merge))
+      paths.reverse.map do |path|
+        load_resource(Resource[path])
+      end.reduce({}, &ConfigHound.method(:deep_merge))
     end
 
     private
 
-    def load_path(path)
-      resource = Resource.new(path)
-      data = resource.load
-      includes = Array(data.delete(include_key))
-      included_resource_paths = includes.map do |relative_path|
-        resource.resolve(relative_path).to_s
-      end
-      ConfigHound.deep_merge(load(*included_resource_paths), data)
-    end
-
     attr_reader :include_key
+
+    def load_resource(resource)
+      raw_data = resource.load
+      includes = Array(raw_data.delete(include_key))
+      included_resources = includes.map do |relative_path|
+        resource.resolve(relative_path)
+      end
+      ConfigHound.deep_merge(load(*included_resources), raw_data)
+    end
 
   end
 

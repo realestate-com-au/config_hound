@@ -10,8 +10,30 @@ module ConfigHound
   #
   class Resource
 
-    def initialize(path)
-      @uri = uri_for(path)
+    class << self
+
+      def [](arg)
+        return arg if arg.is_a?(Resource)
+        new(uri_for(arg))
+      end
+
+      private(:new)
+
+      private
+
+      def uri_for(arg)
+        case arg
+        when URI
+          arg
+        when %r{^\w+:/}
+          URI(arg)
+        when %r{^/}
+          URI("file:#{arg}")
+        else
+          URI("file:#{File.expand_path(arg)}")
+        end
+      end
+
     end
 
     def to_s
@@ -19,7 +41,7 @@ module ConfigHound
     end
 
     def resolve(path)
-      self.class.new(uri + path)
+      Resource[uri + path]
     end
 
     def read
@@ -40,20 +62,11 @@ module ConfigHound
 
     private
 
-    attr_reader :uri
-
-    def uri_for(path)
-      case path
-      when URI
-        path
-      when %r{^\w+:/}
-        URI(path)
-      when %r{^/}
-        URI("file:#{path}")
-      else
-        URI("file:#{File.expand_path(path)}")
-      end
+    def initialize(uri)
+      @uri = uri
     end
+
+    attr_reader :uri
 
   end
 

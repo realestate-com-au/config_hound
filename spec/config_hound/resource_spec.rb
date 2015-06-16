@@ -5,7 +5,7 @@ require "uri"
 
 describe ConfigHound::Resource do
 
-  let(:resource) { described_class.new(path) }
+  let(:resource) { described_class[path] }
 
   context "with a URI" do
 
