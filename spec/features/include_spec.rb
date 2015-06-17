@@ -4,7 +4,7 @@ describe ConfigHound do
   let(:options) { {} }
 
   def load(path)
-    ConfigHound.with(options).load(path)
+    ConfigHound.load(path, options)
   end
 
   let(:config) { load("config.yml") }

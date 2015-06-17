@@ -10,8 +10,8 @@ module ConfigHound
       @include_key = options.fetch(:include_key, DEFAULT_INCLUDE_KEY)
     end
 
-    def load(*paths)
-      paths.reverse.map do |path|
+    def load(paths)
+      Array(paths).reverse.map do |path|
         load_resource(Resource[path])
       end.reduce({}, &ConfigHound.method(:deep_merge))
     end
@@ -26,7 +26,7 @@ module ConfigHound
       included_resources = includes.map do |relative_path|
         resource.resolve(relative_path)
       end
-      ConfigHound.deep_merge(load(*included_resources), raw_data)
+      ConfigHound.deep_merge(load(included_resources), raw_data)
     end
 
   end

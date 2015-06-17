@@ -4,7 +4,7 @@ require "config_hound"
 
 describe ConfigHound do
 
-  let(:config) { ConfigHound.load("fileA.yml", "fileB.yml") }
+  let(:config) { ConfigHound.load(["fileA.yml", "fileB.yml"]) }
 
   given_resource "fileA.yml", %{
     source: A
