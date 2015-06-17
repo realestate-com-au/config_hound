@@ -4,9 +4,9 @@ require "config_hound/deep_merge"
 
 describe ConfigHound do
 
-  describe ".deep_merge" do
+  describe ".deep_merge_into" do
 
-    let(:result) { ConfigHound.deep_merge(v1, v2) }
+    let(:result) { ConfigHound.deep_merge_into(v1, v2) }
 
     context "with non-Hash arguments" do
 

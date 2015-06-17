@@ -13,7 +13,7 @@ module ConfigHound
     def load(paths)
       Array(paths).reverse.map do |path|
         load_resource(Resource[path])
-      end.reduce({}, &ConfigHound.method(:deep_merge))
+      end.reduce({}, &ConfigHound.method(:deep_merge_into))
     end
 
     private
@@ -26,7 +26,7 @@ module ConfigHound
       included_resources = includes.map do |relative_path|
         resource.resolve(relative_path)
       end
-      ConfigHound.deep_merge(load(included_resources), raw_data)
+      ConfigHound.deep_merge_into(load(included_resources), raw_data)
     end
 
   end
