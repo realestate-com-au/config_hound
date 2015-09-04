@@ -1,3 +1,4 @@
+require "config_hound/deep_merge"
 require "config_hound/resource"
 
 module ConfigHound
