@@ -46,3 +46,9 @@ another, e.g.
 ## Contributing
 
 It's on GitHub; you know the drill.
+
+## See also
+
+ConfigHound works well with:
+
+* [ConfigMapper](https://github.com/mdub/config_mapper)
