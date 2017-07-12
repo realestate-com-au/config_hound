@@ -2,7 +2,7 @@ require "spec_helper"
 
 require "config_hound"
 
-describe ConfigHound do
+describe ConfigHound, "expansion" do
 
   let(:config) { ConfigHound.load("config.yml") }
 

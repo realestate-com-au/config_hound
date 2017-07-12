@@ -2,7 +2,7 @@ require "spec_helper"
 
 require "config_hound"
 
-describe ConfigHound do
+describe ConfigHound, "formats" do
 
   def load(path)
     ConfigHound.load(path)

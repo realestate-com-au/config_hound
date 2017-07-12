@@ -2,7 +2,7 @@ require "spec_helper"
 
 require "config_hound"
 
-describe ConfigHound do
+describe ConfigHound, "inclusion" do
 
   let(:options) { {} }
 

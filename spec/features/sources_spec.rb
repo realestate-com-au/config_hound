@@ -2,7 +2,7 @@ require "spec_helper"
 
 require "config_hound"
 
-describe ConfigHound do
+describe ConfigHound, "sources" do
 
   let(:defaults) do
     {
@@ -10,16 +10,23 @@ describe ConfigHound do
         "winner" => "defaults"
       },
       "data" => {
-        "from-defaults" => 1
+        "from-defaults" => "D"
       }
     }
   end
 
-  given_resource "config.yml", %{
+  given_resource "fileA.yml", %{
     meta:
-      winner: file
+      winner: fileA
     data:
-      from-file: 2
+      from-fileA: A
+  }
+
+  given_resource "fileB.yml", %{
+    meta:
+      winner: fileB
+    data:
+      from-fileB: B
   }
 
   let(:overrides) do
@@ -28,20 +35,21 @@ describe ConfigHound do
         "winner" => "overrides"
       },
       "data" => {
-        "from-overrides" => 3
+        "from-overrides" => "O"
       }
     }
   end
 
   let(:config) do
-    ConfigHound.load([overrides, "config.yml", defaults])
+    ConfigHound.load([overrides, "fileA.yml", "fileB.yml", defaults])
   end
 
   it "merges file contents with hashes" do
     data = config.fetch("data")
-    expect(data).to have_key("from-overrides")
-    expect(data).to have_key("from-file")
-    expect(data).to have_key("from-defaults")
+    expect(data["from-overrides"]).to eql("O")
+    expect(data["from-fileA"]).to eql("A")
+    expect(data["from-fileB"]).to eql("B")
+    expect(data["from-defaults"]).to eql("D")
   end
 
   it "favours the earliest source" do
