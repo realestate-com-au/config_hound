@@ -11,17 +11,18 @@ module ConfigHound
       @include_key = options.fetch(:include_key, DEFAULT_INCLUDE_KEY)
     end
 
-    def load(paths)
-      Array(paths).reverse.map do |path|
-        load_resource(Resource[path])
-      end.reduce({}, &ConfigHound.method(:deep_merge_into))
+    def load(sources)
+      raw_hashes = Array(sources).map(&method(:load_source))
+      raw_hashes.reverse.reduce({}, &ConfigHound.method(:deep_merge_into))
     end
 
     private
 
     attr_reader :include_key
 
-    def load_resource(resource)
+    def load_source(source)
+      return source if source.is_a?(Hash)
+      resource = Resource[source]
       raw_data = resource.load
       includes = Array(raw_data.delete(include_key))
       included_resources = includes.map do |relative_path|
