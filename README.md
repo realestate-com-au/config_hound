@@ -17,23 +17,27 @@ spread between multiple files.
 ## Inclusion
 
 ConfigHound let's you include defaults from other files.
-Just list the file paths (or URLs) under the key "_include",
+Just list the file paths (or URLs) under the key `_include`,
 
 For example, in `config.yml`:
 
-    _include:
-      - defaults.yml
-    pool:
-      size: 10
-    log:
-      file: "app.log"
+```
+_include:
+  - defaults.yml
+pool:
+  size: 10
+log:
+  file: "app.log"
+```
 
 then in `defaults.yml`
 
-    log:
-      level: INFO
-    pool:
-      size: 1
+```
+log:
+  level: INFO
+pool:
+  size: 1
+```
 
 Values in the original config file override those from included files.
 Multiple levels of inclusion are possible.
