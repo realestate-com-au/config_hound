@@ -1,3 +1,6 @@
+require "spec_helper"
+
+require "config_hound"
 
 describe ConfigHound do
 
@@ -193,5 +196,3 @@ describe ConfigHound do
 
   end
 end
-
-
