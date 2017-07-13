@@ -1,3 +1,5 @@
+require "config_hound/error"
+
 module ConfigHound
 
   # Expand variables
@@ -63,8 +65,8 @@ module ConfigHound
 
     end
 
-    class ReferenceError < StandardError; end
-    class CircularReferenceError < ReferenceError; end
+    ReferenceError = Class.new(ConfigHound::Error)
+    CircularReferenceError = Class.new(ReferenceError)
 
   end
 

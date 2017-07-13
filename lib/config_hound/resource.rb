@@ -1,10 +1,11 @@
+require "config_hound/error"
 require "config_hound/parser"
 require "open-uri"
 require "uri"
 
 module ConfigHound
 
-  LoadError = Class.new(StandardError)
+  LoadError = Class.new(ConfigHound::Error)
 
   # Represents a source of configuration data.
   #
