@@ -45,7 +45,7 @@ Just list the paths under the key `_include`.
 
 For example, in `config.yml`:
 
-```
+```yaml
 pool:
   size: 10
 log:
@@ -56,7 +56,7 @@ _include:
 
 then in `defaults.yml`
 
-```
+```yaml
 log:
   level: INFO
 pool:
@@ -69,13 +69,15 @@ Multiple levels of inclusion are possible.
 If the placeholder "`_include`" doesn't suit, you can specify
 another, e.g.
 
-    config = ConfigHound.load("config.yml", :include_key => "defaults")
+```ruby
+config = ConfigHound.load("config.yml", :include_key => "defaults")
+```
 
 ## Expansion
 
 ConfigHound will expand references of the form `<(X.Y.Z)>` in config values, which can help DRY up configuration, e.g.
 
-```
+```yaml
 name: myapp
 aws:
   region: us-west-1
