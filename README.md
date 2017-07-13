@@ -1,5 +1,7 @@
 # ConfigHound
 
+[![Build Status](https://travis-ci.org/mdub/config_hound.svg?branch=master)](https://travis-ci.org/mdub/config_hound)
+
 ConfigHound makes it easy to load configuration data.
 
 ## Usage
