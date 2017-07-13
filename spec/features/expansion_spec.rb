@@ -4,7 +4,7 @@ require "config_hound"
 
 describe ConfigHound, "expansion" do
 
-  let(:config) { ConfigHound.load("config.yml") }
+  let(:config) { ConfigHound.load("config.yml", :expand_refs => true) }
 
   given_resource "config.yml", %{
     var:

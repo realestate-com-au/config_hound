@@ -56,7 +56,7 @@ _include:
 
 then in `defaults.yml`
 
-```yaml
+  ```yaml
 log:
   level: INFO
 pool:
@@ -73,9 +73,9 @@ another, e.g.
 config = ConfigHound.load("config.yml", :include_key => "defaults")
 ```
 
-## Expansion
+## Reference expansion
 
-ConfigHound will expand references of the form `<(X.Y.Z)>` in config values, which can help DRY up configuration, e.g.
+ConfigHound can expand references of the form `<(X.Y.Z)>` in config values, which can help DRY up configuration, e.g.
 
 ```yaml
 name: myapp
@@ -83,6 +83,12 @@ aws:
   region: us-west-1
 log:
   stream: <(name)>-logs-<(aws.region)>
+```
+
+Enable reference expansion with the `:expand_refs` option.
+
+```ruby
+ConfigHound.load(config_files, :expand_refs => true)
 ```
 
 Reference expansion is performed _after_ all config is loaded and merged, so you can reference config specified in other files.
