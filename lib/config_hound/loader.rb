@@ -1,5 +1,4 @@
 require "config_hound/deep_merge"
-require "config_hound/interpolation"
 require "config_hound/resource"
 
 module ConfigHound
@@ -9,7 +8,6 @@ module ConfigHound
     DEFAULT_INCLUDE_KEY = "_include"
 
     attr_accessor :include_key
-    attr_accessor :expand_refs
 
     def initialize(options = {})
       @include_key = DEFAULT_INCLUDE_KEY
@@ -20,9 +18,7 @@ module ConfigHound
 
     def load(sources)
       raw_hashes = Array(sources).map(&method(:load_source))
-      result = raw_hashes.reverse.reduce({}, &ConfigHound.method(:deep_merge_into))
-      result = Interpolation.expand(result) if expand_refs
-      result
+      raw_hashes.reverse.reduce({}, &ConfigHound.method(:deep_merge_into))
     end
 
     private
