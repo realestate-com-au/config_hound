@@ -113,37 +113,37 @@ describe ConfigHound::Interpolation do
 
     end
 
-  end
+    context "with circular reference" do
 
-  context "with circular reference" do
+      let(:input) do
+        {
+          "ping" => "refers to <(pong)>",
+          "pong" => "refers to <(ping)>"
+        }
+      end
 
-    let(:input) do
-      {
-        "ping" => "refers to <(pong)>",
-        "pong" => "refers to <(ping)>"
-      }
+      it "raises a ReferenceError" do
+        expect {
+          output
+        }.to raise_error(ConfigHound::Interpolation::ReferenceError)
+      end
+
     end
 
-    it "raises a ReferenceError" do
-      expect {
-        described_class.expand(input)
-      }.to raise_error(ConfigHound::Interpolation::ReferenceError)
-    end
+    context "with unresolved reference" do
 
-  end
+      let(:input) do
+        {
+          "foo" => "refers to <(bar)>"
+        }
+      end
 
-  context "with unresolved reference" do
+      it "raises a ReferenceError" do
+        expect {
+          output
+        }.to raise_error(ConfigHound::Interpolation::ReferenceError)
+      end
 
-    let(:input) do
-      {
-        "foo" => "refers to <(bar)>"
-      }
-    end
-
-    it "raises a ReferenceError" do
-      expect {
-        described_class.expand(input)
-      }.to raise_error(ConfigHound::Interpolation::ReferenceError)
     end
 
   end
