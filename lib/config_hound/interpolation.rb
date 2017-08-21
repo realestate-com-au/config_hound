@@ -30,7 +30,7 @@ module ConfigHound
         when Hash
           expand_hash(input)
         when Array
-          input.map { |v| expand(v) }
+          expand_array(input)
         when /\A<\(([\w.]+)\)>\Z/
           evaluate_expression($1)
         when /<\([\w.]+\)>/
@@ -47,6 +47,17 @@ module ConfigHound
       def expand_hash(input)
         input.each_with_object({}) do |(k,v), a|
           a[k] = expand(v)
+        end
+      end
+
+      def expand_array(input)
+        input.each_with_object([]) do |v, result|
+          case v
+          when /\A<\*\(([\w.]+)\)>\Z/
+            result.push(*evaluate_expression($1))
+          else
+            result.push(expand(v))
+          end
         end
       end
 

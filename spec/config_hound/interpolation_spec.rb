@@ -146,6 +146,25 @@ describe ConfigHound::Interpolation do
 
     end
 
+    context "with a splat reference" do
+
+      let(:input) do
+        {
+          "x" => [2, 3],
+          "y" => [
+            "juan",
+            "<*(x)>",
+            "for",
+          ]
+        }
+      end
+
+      it "expands the reference" do
+        expect(output["y"]).to eql(["juan", 2, 3, "for"])
+      end
+
+    end
+
   end
 
 end
