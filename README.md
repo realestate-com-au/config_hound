@@ -1,5 +1,6 @@
 # ConfigHound
 
+[![Gem Version](https://badge.fury.io/rb/config_hound.png)](http://badge.fury.io/rb/config_hound)
 [![Build Status](https://travis-ci.org/mdub/config_hound.svg?branch=master)](https://travis-ci.org/mdub/config_hound)
 
 ConfigHound makes it easy to load configuration data.
