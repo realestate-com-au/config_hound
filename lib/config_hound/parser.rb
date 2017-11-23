@@ -16,7 +16,7 @@ module ConfigHound
 
     def parse_yaml(raw)
       require "yaml"
-      YAML.safe_load(raw)
+      YAML.safe_load(raw, [], [], true)
     end
 
     alias :parse_yml :parse_yaml
