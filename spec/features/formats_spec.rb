@@ -20,6 +20,20 @@ describe ConfigHound, "formats" do
     )
   end
 
+  given_resource "config-with-aliases.yml", %{
+    foo: &foo
+      bar: 1
+    baz:
+      <<: *foo
+  }
+
+  it "loads YAML with aliases" do
+    expect(load("config-with-aliases.yml")).to eq(
+      "foo" => { "bar" => 1 },
+      "baz" => { "bar" => 1 }
+    )
+  end
+
   given_resource "config.json", %{
     {
       "foo": 1,
