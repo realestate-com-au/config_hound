@@ -29,13 +29,15 @@ module ConfigHound
         when %r{^\w+:/}
           URI(arg)
         when %r{^/}
-          URI("file:#{arg}")
+          URI("file://#{arg}")
         else
-          URI("file:#{File.expand_path(arg)}")
+          URI("file://#{File.expand_path(arg)}")
         end
       end
 
     end
+
+    attr_reader :uri
 
     def to_s
       uri.to_s
@@ -66,8 +68,6 @@ module ConfigHound
     def initialize(uri)
       @uri = uri
     end
-
-    attr_reader :uri
 
   end
 
