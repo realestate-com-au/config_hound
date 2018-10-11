@@ -23,7 +23,7 @@ describe ConfigHound::Resource do
     let(:path) { "/path/to/file" }
 
     it "assumes it's a file" do
-      expect(resource.to_s).to eq("file:/path/to/file")
+      expect(resource.to_s).to match(%r|^file:/{1,3}path/to/file$|)
     end
 
     describe "#resolve" do
@@ -32,14 +32,14 @@ describe ConfigHound::Resource do
         it "resolves relatively" do
           other_resource = resource.resolve("other_file")
           expect(other_resource).to be_a(ConfigHound::Resource)
-          expect(other_resource.to_s).to eq("file:/path/to/other_file")
+          expect(other_resource.to_s).to match(%r|^file:/{1,3}path/to/other_file$|)
         end
       end
 
       context "with an absolute file path" do
         it "resolves relatively" do
           other_resource = resource.resolve("/different/path")
-          expect(other_resource.to_s).to eq("file:/different/path")
+          expect(other_resource.to_s).to match(%r|^file:/{1,3}different/path$|)
         end
       end
 
@@ -59,7 +59,7 @@ describe ConfigHound::Resource do
     let(:path) { "config.yml" }
 
     it "assumes it's a file relative to $CWD" do
-      expect(resource.to_s).to eq("file:#{Dir.pwd}/config.yml")
+      expect(resource.to_s).to match(%r|^file:/{0,2}#{Dir.pwd}/config.yml$|)
     end
 
   end

@@ -1,5 +1,6 @@
 require "config_hound/error"
 require "dig_rb"
+require "set"
 
 module ConfigHound
 
