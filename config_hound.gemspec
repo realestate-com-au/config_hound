@@ -19,6 +19,8 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^spec/})
   spec.require_paths = ["lib"]
 
+  spec.required_ruby_version = '>= 2.6'
+
   spec.add_runtime_dependency "dig_rb"
 
   spec.add_development_dependency "bundler", "~> 1.7"
