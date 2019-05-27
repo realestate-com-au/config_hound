@@ -20,6 +20,18 @@ describe ConfigHound, "formats" do
     )
   end
 
+  given_resource "s3://s3-test-bucket/config.yml?versionId=123456", %{
+    foo: 1
+    bar: 2
+  }
+
+  it "loads YAML from s3 with version id" do
+    expect(load("s3://s3-test-bucket/config.yml?versionId=123456")).to eq(
+      "foo" => 1,
+       "bar" => 2
+        )
+  end
+
   given_resource "config-with-aliases.yml", %{
     foo: &foo
       bar: 1
