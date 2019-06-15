@@ -56,7 +56,7 @@ module ConfigHound
     end
 
     def format
-      File.extname(uri.to_s)[1..-1]
+      File.extname(uri.path.to_s)[1..-1]
     end
 
     def load
