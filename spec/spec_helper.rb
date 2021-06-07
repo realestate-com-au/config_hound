@@ -1,3 +1,6 @@
+require "open-uri"
+require "uri"
+
 module GivenResource
 
   def inputs
@@ -10,7 +13,7 @@ module GivenResource
     end
     content = undent(content)
     before do
-      allow_any_instance_of(ConfigHound::Resource).to receive(:open).with(path) do |_, _, &block|
+      allow(URI).to receive(:open).with(path) do |_, _, &block|
         block.call(StringIO.new(content.dup))
       end
     end
