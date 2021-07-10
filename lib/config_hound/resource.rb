@@ -48,7 +48,7 @@ module ConfigHound
     end
 
     def read
-      open(uri.scheme == "file" ? uri.path : uri.to_s) do |io|
+      URI.open(uri.scheme == "file" ? uri.path : uri.to_s) do |io|
         io.read
       end
     rescue Errno::ENOENT
