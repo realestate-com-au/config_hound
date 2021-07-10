@@ -31,6 +31,7 @@ module GivenResource
 end
 
 RSpec.configure do |config|
+  config.warnings = true
 
   config.extend(GivenResource)
 
