@@ -1,5 +1,8 @@
-module ConfigHound
+require 'config_hound/parser/json'
+require 'config_hound/parser/toml'
+require 'config_hound/parser/yaml'
 
+module ConfigHound
   class Parser
 
     def self.parse(*args)
@@ -7,30 +10,10 @@ module ConfigHound
     end
 
     def parse(raw, format)
-      parse_method = "parse_#{format}"
-      raise "unknown format: #{format}" unless respond_to?(parse_method, true)
-      send(parse_method, raw)
-    end
-
-    protected
-
-    def parse_yaml(raw)
-      require "yaml"
-      YAML.safe_load(raw, permitted_classes: [], permitted_symbols: [], aliases: true)
-    end
-
-    alias :parse_yml :parse_yaml
-
-    def parse_json(raw)
-      require "multi_json"
-      MultiJson.load(raw)
-    end
-
-    def parse_toml(raw)
-      require "toml"
-      TOML.load(raw)
+      parse_class = "#{self.class}::#{format.upcase}"
+      raise "unknown format: #{format}" unless ObjectSpace.each_object(Class).find{|c| c.to_s == parse_class }
+      eval(parse_class).parse(raw)
     end
 
   end
-
 end
