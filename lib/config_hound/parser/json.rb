@@ -2,13 +2,15 @@ module ConfigHound
   class Parser
     class JSON
       def self.parse(raw)
-        require "ext/duplicate_key_checking_hash"
         require "multi_json"
-        MultiJson.load(raw, object_class: DuplicateKeyCheckingHash)
+        MultiJson.load(raw)
       end
 
       def self.find_duplicate_keys(raw)
-        find_deep_duplicates([], parse(raw))
+        require "ext/duplicate_key_checking_hash"
+        require "multi_json"
+        parsed = MultiJson.load(raw, object_class: DuplicateKeyCheckingHash)
+        find_deep_duplicates([], parsed)
       end
 
       def self.find_deep_duplicates(parents, hash)
