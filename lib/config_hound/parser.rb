@@ -1,3 +1,4 @@
+require 'config_hound/parser/duplicate_key_error'
 require 'config_hound/parser/json'
 require 'config_hound/parser/toml'
 require 'config_hound/parser/yaml'
