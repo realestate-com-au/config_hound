@@ -10,10 +10,19 @@ module ConfigHound
       new.parse(*args)
     end
 
-    def parse(raw, format)
-      parse_class = "#{self.class}::#{format.upcase}"
-      raise "unknown format: #{format}" unless ObjectSpace.each_object(Class).find{|c| c.to_s == parse_class }
-      eval(parse_class).parse(raw)
+    def parse(raw, format, options={})
+      begin
+        parser = eval("#{self.class}::#{format.upcase}")
+      rescue NameError
+        raise "unknown format: #{format}"
+      end
+
+      if !options[:allow_duplicate_keys] && parser.respond_to?(:find_duplicate_keys)
+        duplicates = parser.find_duplicate_keys(raw)
+        raise DuplicateKeyError.new(duplicates) if duplicates.any?
+      end
+
+      parser.parse(raw)
     end
 
   end
