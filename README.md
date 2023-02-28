@@ -1,6 +1,6 @@
 # ConfigHound
 
-[![Gem Version](https://badge.fury.io/rb/config_hound.png)](http://badge.fury.io/rb/config_hound)
+[![Gem Version](https://badge.fury.io/rb/config_hound.svg)](http://badge.fury.io/rb/config_hound)
 [![Build Status](https://github.com/mdub/config_hound/actions/workflows/test.yaml/badge.svg?branch=master)](https://github.com/mdub/config_hound/actions/workflows/test.yaml)
 
 ConfigHound makes it easy to load configuration data.
