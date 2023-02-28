@@ -47,7 +47,7 @@ module ConfigHound
 
       def expand_hash(input)
         input.each_with_object({}) do |(k,v), a|
-          a[k] = expand(v)
+          a[expand(k)] = expand(v)
         end
       end
 
