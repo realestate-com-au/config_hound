@@ -19,10 +19,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^spec/})
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "dig_rb"
-
   spec.required_ruby_version = '>= 2.6'
 
-  spec.add_development_dependency "rake", "~> 11.0"
+  spec.add_runtime_dependency "dig_rb"
+
+  spec.add_development_dependency "bundler", "~> 2.4"
+  spec.add_development_dependency "rake", "~> 13.0"
 
 end
