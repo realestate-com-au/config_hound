@@ -1,36 +1,29 @@
-module ConfigHound
+require 'config_hound/parser/duplicate_key_error'
+require 'config_hound/parser/json'
+require 'config_hound/parser/toml'
+require 'config_hound/parser/yaml'
 
+module ConfigHound
   class Parser
 
     def self.parse(*args)
       new.parse(*args)
     end
 
-    def parse(raw, format)
-      parse_method = "parse_#{format}"
-      raise "unknown format: #{format}" unless respond_to?(parse_method, true)
-      send(parse_method, raw)
-    end
+    def parse(raw, format, options={})
+      begin
+        parser = eval("#{self.class}::#{format.upcase}")
+      rescue NameError
+        raise "unknown format: #{format}"
+      end
 
-    protected
+      if !options[:allow_duplicate_keys] && parser.respond_to?(:find_duplicate_keys)
+        duplicates = parser.find_duplicate_keys(raw)
+        raise DuplicateKeyError.new(duplicates) if duplicates.any?
+      end
 
-    def parse_yaml(raw)
-      require "yaml"
-      YAML.safe_load(raw, permitted_classes: [], permitted_symbols: [], aliases: true)
-    end
-
-    alias :parse_yml :parse_yaml
-
-    def parse_json(raw)
-      require "multi_json"
-      MultiJson.load(raw)
-    end
-
-    def parse_toml(raw)
-      require "toml"
-      TOML.load(raw)
+      parser.parse(raw)
     end
 
   end
-
 end

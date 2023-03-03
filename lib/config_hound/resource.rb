@@ -59,8 +59,8 @@ module ConfigHound
       File.extname(uri.path.to_s)[1..-1]
     end
 
-    def load
-      Parser.parse(read, format)
+    def load(options={})
+      Parser.parse(read, format, options)
     end
 
     private
